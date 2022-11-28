@@ -7,8 +7,8 @@ import (
 	"github.com/gofiber/fiber/v2"
 	_ "github.com/joho/godotenv/autoload"
 	_ "github.com/microsoft/go-mssqldb"
-	"github.com/raphaelcoutu/go-azure-rhpharma/database"
-	"github.com/raphaelcoutu/go-azure-rhpharma/routes"
+	"github.com/raphaelcoutu/go-rhpharma-azure/database"
+	"github.com/raphaelcoutu/go-rhpharma-azure/routes"
 )
 
 func main() {

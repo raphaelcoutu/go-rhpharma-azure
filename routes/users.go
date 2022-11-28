@@ -7,7 +7,7 @@ import (
 	"fmt"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/raphaelcoutu/go-azure-rhpharma/database"
+	"github.com/raphaelcoutu/go-rhpharma-azure/database"
 )
 
 type User struct {

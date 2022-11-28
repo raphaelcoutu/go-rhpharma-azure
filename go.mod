@@ -1,4 +1,4 @@
-module github.com/raphaelcoutu/go-azure-rhpharma
+module github.com/raphaelcoutu/go-rhpharma-azure
 
 go 1.17
 
