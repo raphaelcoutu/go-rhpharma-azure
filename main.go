@@ -22,10 +22,15 @@ func main() {
 
 	routes.Register(app)
 
+	host := os.Getenv("HOST")
+	if host == "" {
+		host = "localhost"
+	}
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "3000"
 	}
 
-	log.Fatal(app.Listen("localhost:" + port))
+	log.Fatal(app.Listen(host + ":" + port))
 }
