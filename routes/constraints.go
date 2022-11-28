@@ -1,4 +1,4 @@
-package main
+package routes
 
 import (
 	"context"
@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/raphaelcoutu/go-azure-rhpharma/database"
 )
 
 type Constraint struct {
@@ -32,6 +33,7 @@ type Constraint struct {
 
 func GetConstraints(c *fiber.Ctx) error {
 	ctx := context.Background()
+	db := database.DB
 
 	err := db.PingContext(ctx)
 	if err != nil {

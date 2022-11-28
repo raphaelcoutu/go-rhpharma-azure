@@ -1,0 +1,27 @@
+package routes
+
+import (
+	"github.com/gofiber/fiber/v2"
+)
+
+func Register(app *fiber.App) {
+	app.Get("/token", GetToken)
+	app.Get("/users", Protected, GetUsers)
+	app.Get("/users/:userId<int>", Protected, GetUser)
+	app.Get("/constraints", Protected, GetConstraints)
+	app.Get("/constraintTypes", Protected, GetConstraintTypes)
+	app.Get("/constraintTypes/:typeId<int>", Protected, GetConstraintType)
+}
+
+func Protected(c *fiber.Ctx) error {
+	qToken := c.Query("token")
+	if qToken == "" {
+		return c.SendStatus(403)
+	}
+
+	if ValidateToken(qToken) {
+		return c.Next()
+	}
+
+	return c.SendStatus(403)
+}

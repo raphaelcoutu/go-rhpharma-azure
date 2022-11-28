@@ -1,4 +1,4 @@
-package main
+package routes
 
 import (
 	"context"
@@ -7,10 +7,18 @@ import (
 	"fmt"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/raphaelcoutu/go-azure-rhpharma/database"
 )
+
+type User struct {
+	Id        uint   `json:"id"`
+	LastName  string `json:"lastName"`
+	FirstName string `json:"firstName"`
+}
 
 func GetUsers(c *fiber.Ctx) error {
 	ctx := context.Background()
+	db := database.DB
 
 	err := db.PingContext(ctx)
 	if err != nil {
@@ -45,6 +53,7 @@ func GetUsers(c *fiber.Ctx) error {
 
 func GetUser(c *fiber.Ctx) error {
 	ctx := context.Background()
+	db := database.DB
 
 	err := db.PingContext(ctx)
 	if err != nil {
