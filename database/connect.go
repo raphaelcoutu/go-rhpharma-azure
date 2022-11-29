@@ -25,6 +25,9 @@ func ConnectDB() {
 		log.Fatal(err.Error())
 	}
 
+	DB.SetMaxIdleConns(10)
+	DB.SetMaxOpenConns(10)
+
 	fmt.Println("Database: connection established.")
 
 }

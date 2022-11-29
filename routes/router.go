@@ -9,8 +9,9 @@ func Register(app *fiber.App) {
 	app.Get("/users", Protected, GetUsers)
 	app.Get("/users/:userId<int>", Protected, GetUser)
 	app.Get("/constraints", Protected, GetConstraints)
-	app.Get("/constraintTypes", Protected, GetConstraintTypes)
-	app.Get("/constraintTypes/:typeId<int>", Protected, GetConstraintType)
+	app.Get("/constraintTypes", GetConstraintTypes)
+	app.Get("/constraintTypes/:typeId<int>", GetConstraintType)
+	app.Get("/stats", GetDBStats)
 }
 
 func Protected(c *fiber.Ctx) error {
