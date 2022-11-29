@@ -9,6 +9,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/raphaelcoutu/go-rhpharma-azure/database"
+	"github.com/raphaelcoutu/go-rhpharma-azure/logger"
 )
 
 type Constraint struct {
@@ -37,6 +38,7 @@ func GetConstraints(c *fiber.Ctx) error {
 
 	err := db.PingContext(ctx)
 	if err != nil {
+		logger.Log("Error: PingContext. Message: " + err.Error())
 		return err
 	}
 
@@ -52,6 +54,7 @@ func GetConstraints(c *fiber.Ctx) error {
 	if qStartDate != "" {
 		startDate, err = time.Parse(layout, qStartDate)
 		if err != nil {
+			logger.Log("Error: StartDate Parse. Message: " + err.Error())
 			return err
 		}
 	}
@@ -59,6 +62,7 @@ func GetConstraints(c *fiber.Ctx) error {
 	if qEndDate != "" {
 		endDate, err = time.Parse(layout, qEndDate)
 		if err != nil {
+			logger.Log("Error: EndDate Parse. Message: " + err.Error())
 			return err
 		}
 	}
@@ -75,12 +79,14 @@ func GetConstraints(c *fiber.Ctx) error {
 
 	stmt, err := db.Prepare(tsql)
 	if err != nil {
+		logger.Log("Error: Prepare. Message: " + err.Error())
 		return err
 	}
 	defer stmt.Close()
 
 	rows, err := stmt.QueryContext(ctx, sql.Named("StartDate", startDate), sql.Named("EndDate", endDate))
 	if err != nil {
+		logger.Log("Error: QueryContext. Message: " + err.Error())
 		return err
 	}
 

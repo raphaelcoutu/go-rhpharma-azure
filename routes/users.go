@@ -8,6 +8,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/raphaelcoutu/go-rhpharma-azure/database"
+	"github.com/raphaelcoutu/go-rhpharma-azure/logger"
 )
 
 type User struct {
@@ -22,6 +23,7 @@ func GetUsers(c *fiber.Ctx) error {
 
 	err := db.PingContext(ctx)
 	if err != nil {
+		logger.Log("Error: PingContext. Message: " + err.Error())
 		return err
 	}
 
@@ -29,6 +31,7 @@ func GetUsers(c *fiber.Ctx) error {
 
 	rows, err := db.QueryContext(ctx, tsql)
 	if err != nil {
+		logger.Log("Error: QueryContext. Message: " + err.Error())
 		return err
 	}
 
@@ -41,6 +44,7 @@ func GetUsers(c *fiber.Ctx) error {
 
 		err := rows.Scan(&u.Id, &u.LastName, &u.FirstName)
 		if err != nil {
+			logger.Log("Error: Scan. Message: " + err.Error())
 			return err
 		}
 
@@ -57,6 +61,7 @@ func GetUser(c *fiber.Ctx) error {
 
 	err := db.PingContext(ctx)
 	if err != nil {
+		logger.Log("Error: PingContext. Message: " + err.Error())
 		return err
 	}
 
@@ -64,12 +69,14 @@ func GetUser(c *fiber.Ctx) error {
 
 	stmt, err := db.Prepare(tsql)
 	if err != nil {
+		logger.Log("Error: Prepare. Message: " + err.Error())
 		return err
 	}
 	defer stmt.Close()
 
 	userId, err := c.ParamsInt("userId")
 	if err != nil {
+		logger.Log("Error: ParamsInt. Message: " + err.Error())
 		return err
 	}
 
@@ -78,6 +85,7 @@ func GetUser(c *fiber.Ctx) error {
 	var u User
 	err = row.Scan(&u.Id, &u.LastName, &u.FirstName)
 	if err != nil {
+		logger.Log("Error: Scan. Message: " + err.Error())
 		return err
 	}
 

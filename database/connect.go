@@ -1,10 +1,13 @@
 package database
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"log"
 	"os"
+
+	"github.com/raphaelcoutu/go-rhpharma-azure/logger"
 )
 
 var DB *sql.DB
@@ -22,11 +25,19 @@ func ConnectDB() {
 
 	DB, err = sql.Open("sqlserver", connString)
 	if err != nil {
+		logger.Log("Error: sql.Open(). Message: " + err.Error())
 		log.Fatal(err.Error())
 	}
 
 	DB.SetMaxIdleConns(10)
 	DB.SetMaxOpenConns(10)
+
+	ctx := context.Background()
+
+	err = DB.PingContext(ctx)
+	if err != nil {
+		logger.Log("Error: PingContext. Message: " + err.Error())
+	}
 
 	fmt.Println("Database: connection established.")
 

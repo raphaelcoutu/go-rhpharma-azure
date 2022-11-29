@@ -8,6 +8,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/raphaelcoutu/go-rhpharma-azure/database"
+	"github.com/raphaelcoutu/go-rhpharma-azure/logger"
 )
 
 type ConstraintType struct {
@@ -22,6 +23,7 @@ func GetConstraintTypes(c *fiber.Ctx) error {
 
 	err := db.PingContext(ctx)
 	if err != nil {
+		logger.Log("Error: PingContext. Message: " + err.Error())
 		return err
 	}
 
@@ -29,6 +31,7 @@ func GetConstraintTypes(c *fiber.Ctx) error {
 
 	rows, err := db.QueryContext(ctx, tsql)
 	if err != nil {
+		logger.Log("Error: QueryContext. Message: " + err.Error())
 		return err
 	}
 
@@ -41,6 +44,7 @@ func GetConstraintTypes(c *fiber.Ctx) error {
 		var description sql.NullString
 		err := rows.Scan(&t.Id, &t.Name, &description)
 		if err != nil {
+			logger.Log("Error: Scan. Message: " + err.Error())
 			return err
 		}
 
@@ -61,6 +65,7 @@ func GetConstraintType(c *fiber.Ctx) error {
 
 	err := db.PingContext(ctx)
 	if err != nil {
+		logger.Log("Error: PingContext. Message: " + err.Error())
 		return err
 	}
 
@@ -68,12 +73,14 @@ func GetConstraintType(c *fiber.Ctx) error {
 
 	stmt, err := db.Prepare(tsql)
 	if err != nil {
+		logger.Log("Error: Prepare. Message: " + err.Error())
 		return err
 	}
 	defer stmt.Close()
 
 	typeId, err := c.ParamsInt("typeId")
 	if err != nil {
+		logger.Log("Error: ParamsInt. Message: " + err.Error())
 		return err
 	}
 
@@ -83,6 +90,7 @@ func GetConstraintType(c *fiber.Ctx) error {
 	var description sql.NullString
 	err = row.Scan(&t.Id, &t.Name, &description)
 	if err != nil {
+		logger.Log("Error: Scan. Message: " + err.Error())
 		return err
 	}
 

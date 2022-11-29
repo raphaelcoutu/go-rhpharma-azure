@@ -8,6 +8,7 @@ import (
 
 	"code.soquee.net/otp"
 	"github.com/gofiber/fiber/v2"
+	"github.com/raphaelcoutu/go-rhpharma-azure/logger"
 )
 
 var secret = "123456abcde"
@@ -23,6 +24,7 @@ func Token(offset int) int32 {
 func ValidateToken(value string) bool {
 	token, err := strconv.ParseInt(value, 10, 32)
 	if err != nil {
+		logger.Log("Error: ParseInt. Message: " + err.Error())
 		log.Fatal(err)
 	}
 
